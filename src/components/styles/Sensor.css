@@ -1,0 +1,9 @@
+.sensor-health-wrapper {
+  background: #f7f7f7;
+}
+
+.machine-card:hover {
+  background: #f0f8ff;
+  transition: background 0.3s;
+}
+

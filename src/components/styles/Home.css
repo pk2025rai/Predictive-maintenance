@@ -1,0 +1,83 @@
+.home-container {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-bar select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.machine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.machine-card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  min-height: 240px; /* 👈 Increased height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.machine-header {
+  background-color: #ff4d4d;
+  color: white;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 20px 5px 20px 5px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  width: fit-content; /* 👈 only as wide as content */
+  max-width: 100%;    /* ensures it doesn't overflow */
+}
+
+
+.machine-detail {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.machine-detail .highlight {
+  color: red;
+  font-weight: bold;
+}
+
+
+.machine-detail span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+
+.filter-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
