@@ -94,10 +94,10 @@ const ConfigurationPage = () => {
     <div className="configuration-page">
       {machines.map((machine, index) => (
         <div
-          className={`machine-card ${activeMachine === index ? "active" : ""}`}
+          className={`machine-cards ${activeMachine === index ? "active" : ""}`}
           key={index}
         >
-          <div className="machine-header" onClick={() => toggleMachine(index)}>
+          <div className="machine-headers" onClick={() => toggleMachine(index)}>
             <div className="machine-title">
               <span className="machine-label">{machine}</span>
               <span className="arrow">

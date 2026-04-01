@@ -1,3 +1,5 @@
+
+
 * {
   margin: 0;
   padding: 0;
@@ -5,13 +7,14 @@
   font-family: 'Segoe UI', sans-serif;
 }
 .app-container {
- min-height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: stretch;
 }
+
 .sidebar {
-  background-color: #fafafa;
-  border-right: 2px solid #ff4d4d;
+  background-color: #eeedfb;
+  border-right: 2px solid #9a9bfa;
   width: 200px;
   display: flex;
   flex-direction: column;
@@ -68,13 +71,13 @@
   transition: all 0.3s ease;
 }
 .nav-button:hover {
-  background-color: #ffecec;
-  color: #ff4d4d;
+  background-color: #9999f8;
+    color: #ededf2;
   border-radius: 6px;
 }
 .nav-button.active {
-  background-color: #ffecec;
-  color: #ff4d4d;
+  background-color: #4d4ef8;
+    color: #ffffff;
   border-radius: 6px;
 }
 
@@ -117,9 +120,9 @@
   align-items: center;
   justify-content: center; 
   padding: 10px 20px;
-  border-bottom: 2px solid #ff4d4d;
+  border-bottom: 2px solid #9a9bfa;
   height: 80px;
-  background-color: white;
+  background-color: #eeedfb;
 }
 
 .sidebar-toggle {
@@ -139,8 +142,8 @@
     to right,
     white 0%,
     white 45%,
-    red 45%,
-    red 55%,
+    rgb(66, 53, 248) 45%,
+    rgb(23, 20, 159) 55%,
     white 55%,
     white 100%
   );
@@ -155,32 +158,32 @@
 
 .app-logo {
   position: absolute;
-  right: 5px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .app-logo img {
-  width: 90px;
+  width: 40px;
   height: auto;
-  max-height: 40px;
+  max-height: 30px;
   object-fit: contain;
 }
 .app-client{
   position: absolute;
-  right: 100px;
+  right: 60px;
   top:50%;
   transform: translateY(-50%);
 }
 .app-client img {
   
-  width: 130px;
+  width: 150px;
   height: auto;
-  max-height: 70px;
+  max-height: 60px;
   object-fit: contain;
 }
 .app-header h1{
-  color:#ff4d4d
+  color:#000000
 }
 
 .nav-button{
@@ -201,61 +204,64 @@
 }
 
 .current-page-title h3 {
-  margin: 103px 0 30px 20px;
-  color: #000000;
+  margin: 103px 0 30px 26px;
+  color: #4d4ef9;
   font-weight: bolder;
   font-size: 19px;
   white-space: nowrap;
 }
 
 .current-page-title {
-  padding-left: 23px;
+  padding-left: 20px;
   
   
 }
 
-/* At the top of your CSS */
-html, body {
-  height: 100%;
-}
 
-/* Modify sidebar */
+/* Make sure .sidebar stretches full height and uses column layout */
 .sidebar {
-  height: 100%;
-  min-height: 100vh;
-}
-
-.sidebar {
-  background-color: #fafafa;
-  border-right: 2px solid #ff4d4d;
+  background-color: #eeedfb;
+  border-right: 2px solid #9a9bfa;
   width: 200px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* key to push footer down */
+  justify-content: flex-start;
   transition: width 0.3s ease;
-  overflow: hidden;
-  position: relative;
-  height: auto; /* ensure sidebar fills the height */
-  z-index: 1000;
+  overflow-y: auto;  /* scroll if needed */
+  position: fixed;
+  height: 100%;
 }
 
+/* Let this push itself to the bottom of the sidebar */
+.footer-logo {
+  margin-top: auto; /* this pushes it to bottom in flex column layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #eeedfb;
+}
+
+
+
+/* Push footer logo to bottom of the sidebar */
 .footer-logo {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 10px;
-  text-align: center;
-}
-
-.footer-logo img {
-  max-width: 160px;
-  max-height: 60px;
-  transition: all 0.3s ease;
+  background-color: #eeedfb;
 }
 
 
-.sidebar .footer-logo {
-  margin-top: auto; /* pushes logo to bottom */
+.main-content {
+  margin-left: 200px; /* Match sidebar width */
+  
 }
 
+.sidebar.closed ~ .main-content {
+  margin-left: 0;
+}

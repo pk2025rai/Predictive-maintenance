@@ -134,7 +134,7 @@ const SensorHealth = () => {
                 <h4
                   style={{
                     color: "white",
-                    backgroundColor: "red",
+                    backgroundColor: "rgb(163, 137, 244)",
                     padding: "4px 10px",
                     borderRadius: "4px",
                     width: "fit-content",
@@ -197,7 +197,7 @@ const SensorHealth = () => {
                 <h4
                   style={{
                     color: "white",
-                    backgroundColor: "red",
+                    backgroundColor: "rgb(163, 137, 244)",
                     padding: "4px 10px",
                     borderRadius: "4px",
                     width: "fit-content",

@@ -5,31 +5,31 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-.machine-card {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.machine-cards {
+  background: #f3f4f7; /* light grey like 1st image */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   margin-bottom: 15px;
   overflow: hidden;
-  border: 1px solid #eee;
 }
 
-
-.machine-header {
+.machine-headers {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  /* padding: 16px 20px; */
-  background-color: #fb4949;
+  justify-content: space-between;
+  padding: 14px 18px;   /* ADD THIS */
+  background: transparent;  /* REMOVE BLUE */
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .machine-header:hover {
   background-color: #ee5959;
 }
 
-
+.machine-cards:hover {
+  transform: translateY(-2px);
+  transition: 0.2s;
+}
 .machine-title {
   display: flex;
   justify-content: space-between;
@@ -37,18 +37,21 @@
   width: 100%;
   font-weight: 600;
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
 }
 
 .machine-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  background: #4f5cff;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .arrow {
-  font-size: 18px;
-  color: #333;
+  font-size: 16px;
+  color: #555;
 }
 
 
@@ -130,7 +133,7 @@
 .sensor-input button {
   padding: 5px 10px;
   font-size: 14px;
-  background: #f71515;
+  background: #5c60d0;
   color: white;
   border: none;
   border-radius: 4px;
@@ -144,7 +147,7 @@
 .update-btn {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #ff1010;
+  background: #23198f;
   color: white;
   font-size: 15px;
   border: none;
