@@ -4,7 +4,7 @@
   align-items: center;
   padding: 10px;
   margin-bottom: 20px;
-  z-index: 9999;
+  
 }
 .footer-logo img {
    max-width: 160px;
@@ -20,17 +20,19 @@
 .content-body {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Align children to left */
   padding: 30px;
   border-radius: 12px;
   background: #fff;
-  text-align: center;
+  text-align: left;        /* Text aligned left */
+  width: 100%;
 }
+
 
 .hamburger-hover-wrapper {
   position: absolute;
   top: 40px;
-  right: 1290px;
+  right: 1288px;
   z-index: 9999;
 }
 
@@ -45,7 +47,7 @@
 .hamburger-toggle .bar {
   width: 20px;
   height: 2px;
-  background-color: #0410ec;
+  background-color: #2850e3;
   margin: 4px 0;
 }
 
@@ -87,3 +89,65 @@
 }
 
 
+
+.app-logo{
+  z-index: 1000;
+}
+
+.admin-dropdown {
+  position: absolute;
+  top: 70px; /* just below the logo */
+  right: 10px;
+  z-index: 9999; /* high z-index to sit on top */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-item .icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.admin-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #374bff;
+  margin: 8px 0;
+}
+
+.logout-btn {
+  color: #5a41e9;
+  font-weight: bold;
+}
+
+.icon{
+  color: #3f34d3;
+}
+.arjun{
+  color: #285fe0;
+}

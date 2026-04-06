@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavLink, useLocation } from "react-router-dom";
-import { FaHome, FaUserCog, FaCog } from "react-icons/fa";
+import { FaHome, FaUserCog, FaCog, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { MdSensors } from "react-icons/md";
+import { BiBriefcase, BiErrorCircle } from "react-icons/bi";
 import "../styles/Prototype.css";
 // import clientlogo from '../assets/clientlogo.png'
 import "../styles/analytics.css";
@@ -10,24 +11,32 @@ import image from "../assets/analytics.png";
 import ing from "../assets/resoluteai.png";
 import pre from "../assets/pre.png";
 import client from "../assets/client.webp";
-import admin from "../assets/admin.png";
+import adminlogo from "../assets/admin.png";
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isHamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
+   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
+  const adminMenuRef = useRef(null)
 
-  useEffect(() => {
+useEffect(() => {
     const handleClickOutside = (event) => {
       const wrapper = document.querySelector(".hamburger-hover-wrapper");
       if (wrapper && !wrapper.contains(event.target)) {
         setHamburgerMenuOpen(false);
+      }
+      // Close admin menu when clicking outside
+      if (
+        adminMenuRef.current &&
+        !adminMenuRef.current.contains(event.target)
+      ) {
+        setAdminMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,7 +68,7 @@ const Dashboard = () => {
 
         <nav className="nav-links">
           <NavLink
-            to="/"
+            to="/dashboard/home"
             end
             className={({ isActive }) =>
               `nav-button ${isActive ? "active" : ""}`
@@ -70,7 +79,7 @@ const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to="/sensors"
+            to="/dashboard/sensors"
             className={({ isActive }) =>
               `nav-button ${isActive ? "active" : ""}`
             }
@@ -80,7 +89,7 @@ const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to="/configuration"
+            to="/dashboard/config"
             className={({ isActive }) =>
               `nav-button ${isActive ? "active" : ""}`
             }
@@ -90,7 +99,7 @@ const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to="/user-management"
+            to="/dashboard/users"
             className={({ isActive }) =>
               `nav-button ${isActive ? "active" : ""}`
             }
@@ -181,9 +190,36 @@ const Dashboard = () => {
           <div className="app-client">
             <img src={pre} alt="Client Logo" />
           </div>
+          <div className="app-logo" ref={adminMenuRef}>
+            <img
+              src={adminlogo}
+              alt="admin Logo"
+              className="admin-logo"
+              onClick={() => setAdminMenuOpen((prev) => !prev)}
+            />
+            {isAdminMenuOpen && (
+              <div className="admin-dropdown">
+                <div className="dropdown-item user-info">
+                  <FaUser className="icon" />
+                  <span className="arjun">Admin</span>
+                </div>
 
-          <div className="app-logo">
-            <img src={admin} alt="Client Logo" />
+                <div className="dropdown-item admin-label">
+                  <BiBriefcase className="icon" />
+                  <span className="arjun">Manager</span>
+                </div>
+
+                <div className="dropdown-divider"></div>
+
+                <button
+                  className="dropdown-item logout-btn"
+                  onClick={() => navigate("/")}
+                >
+                  <FaSignOutAlt className="icon" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
           </div>
         </header>
 
