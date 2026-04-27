@@ -12,24 +12,61 @@ import {
   Legend,
 } from "recharts";
 import "../styles/Sensor.css";
-import sensorHealthData from '../data/data'
+import sensorHealthData from "../data/data";
+import Papa from "papaparse";
 
 const SensorHealth = () => {
   const [openCardId, setOpenCardId] = useState(null);
   const [selectedArea, setSelectedArea] = useState("All Areas");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  const [uploadedData, setUploadedData] = useState([]);
   const toggleCard = (id) => {
     setOpenCardId((prevId) => (prevId === id ? null : id));
   };
 
-  const filteredMachines = sensorHealthData.filter((machine) =>
-    selectedArea === "All Areas" ? true : machine.area === selectedArea
+  const dataSource = uploadedData.length > 0 ? uploadedData : sensorHealthData;
+
+  const filteredMachines = dataSource.filter((machine) =>
+    selectedArea === "All Areas" ? true : machine.area === selectedArea,
   );
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        console.log("CSV Data:", results.data); // 🔥 check this in console
+
+        const formatted = [
+          {
+            id: 1,
+            machine: file.name, // dynamic machine name
+            area: "Area 1",
+            sensors: results.data
+              .filter((_, index) => index % 10 === 0) // 🔥 take every 10th point
+              .map((row, index) => ({
+                name: row.timestamp || `T${index + 1}`,
+
+                value: Number(row["X-RMS-V 04 (mm/s)"]) / 1000 || 0,
+
+                health: Math.max(
+                  0,
+                  100 - Number(row["X-RMS-V 04 (mm/s)"]) / 1000,
+                ),
+              })),
+          },
+        ];
+        console.log(results.data[0]);
+        setUploadedData(formatted);
+      },
+    });
+  };
 
   return (
     <div className="sensor-health-wrapper" style={{ padding: "20px" }}>
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
       {/* Filter Controls */}
       <div
         style={{
@@ -129,7 +166,6 @@ const SensorHealth = () => {
                 flexWrap: "wrap",
               }}
             >
-             
               <div style={{ flex: 1, minWidth: "300px" }}>
                 <h4
                   style={{
@@ -172,10 +208,9 @@ const SensorHealth = () => {
                         angle: -90,
                         position: "insideLeft",
                         offset: 0,
-                         dx:10,
+                        dx: 10,
                         dy: 40,
-                         style: { fontWeight: "bold" }
-                      
+                        style: { fontWeight: "bold" },
                       }}
                     />
                     <Tooltip />
@@ -215,9 +250,9 @@ const SensorHealth = () => {
                         angle: -90,
                         position: "insideLeft",
                         offset: 0,
-                        dx:10,
+                        dx: 10,
                         dy: 30,
-                         style: { fontWeight: "bold" }
+                        style: { fontWeight: "bold" },
                       }}
                     />
                     <Tooltip />

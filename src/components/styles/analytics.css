@@ -32,7 +32,7 @@
 .hamburger-hover-wrapper {
   position: absolute;
   top: 40px;
-  right: 1288px;
+  left: 0px;
   z-index: 9999;
 }
 
@@ -150,4 +150,29 @@
 }
 .arjun{
   color: #285fe0;
+}
+
+
+
+
+
+.nav-button.active {
+  background: linear-gradient(90deg, #5c60d0, #4f5cff);
+  color: white;
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+   filter: brightness(0);
+}
+
+.nav-button.active .nav-icon {
+  filter: brightness(0) invert(1);
+}
+
+.nav-button:hover .nav-icon {
+  filter: brightness(0) invert(0.5);
 }

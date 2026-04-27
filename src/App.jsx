@@ -6,6 +6,8 @@ import Sensors from "./components/pages/Sensors";
 import Configuration from "./components/pages/Configuration";
 import Usermanagement from "./components/pages/Usermanagement";
 import Login from "./components/Login/Login";
+import './App.css'
+import HistoryPage from "./components/pages/History";
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
         </Route> */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<Homepage />} />
+          <Route path="history" element={<HistoryPage />} />
           <Route path="sensors" element={<Sensors />} />
           <Route path="config" element={<Configuration />} />
           <Route path="users" element={<Usermanagement />} />

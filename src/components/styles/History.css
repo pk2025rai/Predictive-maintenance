@@ -1,0 +1,123 @@
+.history-page {
+  padding: 20px;
+}
+
+/* Back */
+.top-row {
+  margin-bottom: 10px;
+}
+
+.back-link {
+  cursor: pointer;
+  color: #5c60d0;
+  font-weight: 500;
+}
+
+/* Tabs + Search aligned */
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Tabs */
+.history-tabs {
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+}
+
+.history-tabs span {
+  cursor: pointer;
+  color: #777;
+}
+
+.history-tabs .active {
+  color: #000;
+  font-weight: 600;
+  border-bottom: 2px solid #5c60d0;
+}
+
+/* Search right */
+.history-search {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 280px;
+}
+
+/* Table */
+.history-table {
+  overflow-x: auto;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.history-table th {
+  background: #f3f4f7;
+  font-weight: 600;
+}
+
+.history-table th,
+.history-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+}
+
+.history-table tbody tr:nth-child(even) {
+  background: #f9fafc;
+}
+
+
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Tabs */
+.history-tabs {
+  display: flex;
+  gap: 25px;
+}
+
+.history-tabs span {
+  cursor: pointer;
+  color: #777;
+  font-size: 14px;
+}
+
+.history-tabs .active {
+  color: #000;
+  font-weight: 600;
+  border-bottom: 2px solid #5c60d0;
+}
+
+/* Right side */
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Search */
+.history-search {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 260px;
+}
+
+/* Back button (right side) */
+.back-link {
+  cursor: pointer;
+  color: #5c60d0;
+  font-weight: 500;
+}

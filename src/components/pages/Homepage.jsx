@@ -1,17 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getMachines, getAlerts } from "../data/api";
 import "../styles/Home.css";
 import { FaClock, FaTools } from "react-icons/fa";
 import { MdBuild, MdAccessTime } from "react-icons/md";
-import machines from '../data/data'
+// import machines from "../data/data";
 const Home = () => {
   const [selectedArea, setSelectedArea] = useState("All");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [machines, setMachines] = useState([]);
+  const [alerts, setAlerts] = useState([]);
 
   const handleAreaChange = (e) => setSelectedArea(e.target.value);
   const handleStartDateChange = (e) => setStartDate(e.target.value);
   const handleEndDateChange = (e) => setEndDate(e.target.value);
+  useEffect(() => {
+    fetchMachines();
+    fetchAlerts();
+  }, []);
+  const fetchAlerts = async () => {
+    try {
+      const res = await getAlerts();
+      setAlerts(res.data);
+    } catch (err) {
+      console.error("Error fetching alerts", err);
+    }
+  };
+  const getAlertForMachine = (machineId) => {
+    const found = alerts.find((a) => a.machine_id === machineId);
+    return found ? found.alert : "NA";
+  };
 
+  const fetchMachines = async () => {
+    try {
+      const res = await getMachines();
+
+      // Convert backend data → match your UI format
+      const formatted = res.data.map((m, index) => ({
+        id: index + 1,
+        area: index % 2 === 0 ? "Area 1" : "Area 2", // temporary (since backend doesn't send area)
+        lastFailure: new Date().toISOString(), // placeholder
+        ...m,
+      }));
+
+      setMachines(formatted);
+    } catch (err) {
+      console.error("Error fetching machines", err);
+    }
+  };
   const filteredMachines = machines.filter((m) => {
     const matchArea = selectedArea === "All" || m.area === selectedArea;
     const failureDate = new Date(m.lastFailure);
@@ -39,7 +75,7 @@ const Home = () => {
       <div className="machine-grid">
         {filteredMachines.map((m) => (
           <div className="machine-card" key={m.id}>
-            <div className="machine-header">MACHINE {m.id}</div>
+            <div className="machine-header">{m.machine_name}</div>
 
             <div className="machine-detail">
               <span>
@@ -59,23 +95,43 @@ const Home = () => {
 
             <div className="machine-detail">
               <span>
-                <FaTools /> Last Maintenance
+                <FaTools /> Health Score
               </span>
-              <span>15 Jun 2025</span>
+              <span className="highlight">{m.health_score}%</span>
             </div>
 
             <div className="machine-detail">
               <span>
-                <MdBuild /> Next Maintenance
+                <MdBuild /> Status
               </span>
-              <span>10 Aug 2025</span>
+              <span className={m.status === "Healthy" ? "green" : "orange"}>
+                {m.status}
+              </span>
             </div>
 
             <div className="machine-detail">
               <span>
                 <MdAccessTime /> Predicted Failure Time
               </span>
-              <span>28 Jun 2025, 11:30 PM</span>
+              <span>
+                {m.health_score > 80
+                  ? "Low Risk"
+                  : m.health_score > 60
+                    ? "Medium Risk"
+                    : "High Risk"}
+              </span>
+            </div>
+            <div className="machine-detail">
+              <span>
+                <MdAccessTime /> Alert
+              </span>
+              <span
+                className={
+                  getAlertForMachine(m.machine_id) !== "NA" ? "alert" : ""
+                }
+              >
+                {getAlertForMachine(m.machine_id)}
+              </span>
             </div>
           </div>
         ))}

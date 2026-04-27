@@ -12,6 +12,9 @@ import ing from "../assets/resoluteai.png";
 import pre from "../assets/pre.png";
 import client from "../assets/client.webp";
 import adminlogo from "../assets/admin.png";
+import home from '../assets/home.png';
+import pulse from '../assets/pulse.png';
+import slider from '../assets/sliders.png';
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -42,13 +45,15 @@ useEffect(() => {
 
   const getPageTitle = (pathname) => {
     switch (pathname) {
-      case "/":
+      case "/dashboard/home":
         return "Home";
-      case "/sensors":
+      case "/dashboard/sensors":
         return "Sensor's Health";
-      case "/configuration":
+      case "/dashboard/config":
         return "Configuration";
-      case "/user-management":
+      case "/dashboard/history":
+        return "Configuration";
+      case "/dashboard/users":
         return "User Management";
       default:
         return "";
@@ -74,7 +79,7 @@ useEffect(() => {
               `nav-button ${isActive ? "active" : ""}`
             }
           >
-            <FaHome />
+            <img src={home} className="nav-icon" alt="home" />
             <span>Home</span>
           </NavLink>
 
@@ -84,7 +89,7 @@ useEffect(() => {
               `nav-button ${isActive ? "active" : ""}`
             }
           >
-            <MdSensors />
+            <img src={pulse} className="nav-icon" alt="pulse" />
             <span>Sensor's Health</span>
           </NavLink>
 
@@ -94,7 +99,7 @@ useEffect(() => {
               `nav-button ${isActive ? "active" : ""}`
             }
           >
-            <FaCog />
+           <img src={slider} className="nav-icon" alt="config" />
             <span>Configuration</span>
           </NavLink>
 

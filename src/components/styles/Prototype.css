@@ -127,7 +127,7 @@
 
 .sidebar-toggle {
   position: absolute;
-  top: 50px;             
+  top: 100px;             
   left: 0;
   background: transparent;
   border: none;
@@ -204,7 +204,7 @@
 }
 
 .current-page-title h3 {
-  margin: 103px 0 30px 26px;
+  margin: 149px 0 30px 20px;
   color: #4d4ef9;
   font-weight: bolder;
   font-size: 19px;
