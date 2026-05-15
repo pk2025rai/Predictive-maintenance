@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import settings from "../assets/settings.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const machines = [
   "MACHINE 1",
@@ -28,6 +29,29 @@ const ConfigurationPage = () => {
   const navigate = useNavigate();
   const toggleMachine = (index) => {
     setActiveMachine(activeMachine === index ? null : index);
+  };
+  const updatedConfig = async (machine) => {
+    try {
+      await axios.post("http://localhost:8000/api/v1/config/last-maintenance", {
+        machine_id: machine,
+        date: lastDate ? lastDate.toLocaleDateString() : "",
+      });
+      await axios.post("http://localhost:8000/api/v1/config/next-maintenance", {
+        machine_id: machine,
+        date: nextDate ? nextDate.toLocaleDateString() : "",
+      });
+      await axios.post(
+        "http://localhost:8000/api/v1/config/predicted-failure",
+        {
+          machine_id: machine,
+          date: nextDate ? nextDate.toLocaleDateString() : "",
+        },
+      );
+      alert("Config Updated");
+    } catch (error) {
+      console.error(error);
+      alert("update failed");
+    }
   };
 
   const handleThresholdChange = (machineIndex, type, sensorIndex, value) => {
@@ -104,12 +128,12 @@ const ConfigurationPage = () => {
           {/* Menu / <span>Configuration</span> */}
         </div>
 
-       <button
-  className="history-btn"
-  onClick={() => navigate("/dashboard/history")}
->
-  ⟲ Check History
-</button>
+        <button
+          className="history-btn"
+          onClick={() => navigate("/dashboard/history")}
+        >
+          ⟲ Check History
+        </button>
       </div>
       {machines.map((machine, index) => (
         <div
@@ -164,7 +188,12 @@ const ConfigurationPage = () => {
                 {renderSensorInputs(index, "lower")}
               </div>
 
-              <button className="update-btn">Update</button>
+              <button
+                className="update-btn"
+                onClick={() => updatedConfig(`MC${index + 1}`)}
+              >
+                Update
+              </button>
             </div>
           )}
         </div>

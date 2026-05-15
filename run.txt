@@ -1,0 +1,8 @@
+For Frontend
+
+npm run dev
+
+
+For Backend
+
+python -m uvicorn app:app --reload

@@ -3,10 +3,16 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { format } from "date-fns";
 import "../styles/UserManagement.css";
+import CreateUserModal from "./UserModal";
+import EditUserModal from "./EditModal";
 
 const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   // Default mock users
   const defaultUsers = [
@@ -32,10 +38,13 @@ const UserManagement = () => {
       createdAt: "2025-07-23T09:45:00",
     },
   ];
+  const handleCreateNewUser = (newUser) => {
+    setUsers([...users, newUser]);
+  };
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/get-users")
+      .get("http://localhost:8000/api/v1/users")
       .then((response) => {
         setUsers(response.data);
       })
@@ -47,12 +56,29 @@ const UserManagement = () => {
   }, []);
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const normalizeDate = (dateStr) => {
     if (!dateStr) return null;
     return dateStr.replace(" ", "T").replace(/:(\d{6})$/, ".$1");
+  };
+  const handleEdit = (user, index) => {
+    setSelectedUser(user);
+    setSelectedIndex(index);
+    setEditModal(true);
+  };
+  const handleUpdateUser = (updatedUser) => {
+    const updatedUsers = [...users];
+
+    updatedUsers[selectedIndex] = updatedUser;
+
+    setUsers(updatedUsers);
+  };
+  const handleDelete = (index) => {
+    const updatedUsers = users.filter((_, i) => i !== index);
+
+    setUsers(updatedUsers);
   };
 
   return (
@@ -65,7 +91,9 @@ const UserManagement = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="create-user-btn">+ Create User</button>
+        <button className="create-user-btn" onClick={() => setOpenModal(true)}>
+          + Create User
+        </button>
       </div>
 
       <div className="user-table-wrapper">
@@ -85,13 +113,13 @@ const UserManagement = () => {
               <tr key={index} className={index % 2 !== 0 ? "alt-row" : ""}>
                 <td>{user.name}</td>
                 <td>{user.designation}</td>
-                <td>{user.contact}</td>
+                <td>{user.phone}</td>
                 <td>{user.role}</td>
                 <td>
                   {user.createdAt
                     ? format(
                         new Date(normalizeDate(user.createdAt)),
-                        "yyyy-MM-dd HH:mm:ss"
+                        "yyyy-MM-dd HH:mm:ss",
                       )
                     : "N/A"}
                 </td>
@@ -99,12 +127,12 @@ const UserManagement = () => {
                   <FaEdit
                     color="blue"
                     style={{ cursor: "pointer", marginRight: "10px" }}
-                    onClick={() => alert(`Edit user: ${user.name}`)}
+                    onClick={() => handleEdit(user, index)}
                   />
                   <FaTrash
                     color="red"
                     style={{ cursor: "pointer" }}
-                    onClick={() => alert(`Delete user: ${user.name}`)}
+                    onClick={() => handleDelete(index)}
                   />
                 </td>
               </tr>
@@ -112,6 +140,17 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+      <CreateUserModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        onCreate={handleCreateNewUser}
+      />
+      <EditUserModal
+        isOpen={editModal}
+        onClose={() => setEditModal(false)}
+        userData={selectedUser}
+        onUpdate={handleUpdateUser}
+      />
     </div>
   );
 };

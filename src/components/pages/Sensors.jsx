@@ -12,8 +12,10 @@ import {
   Legend,
 } from "recharts";
 import "../styles/Sensor.css";
-import sensorHealthData from "../data/data";
+// import sensorHealthData from "../data/data";
 import Papa from "papaparse";
+import axios from "axios";
+import { useEffect } from "react";
 
 const SensorHealth = () => {
   const [openCardId, setOpenCardId] = useState(null);
@@ -21,6 +23,7 @@ const SensorHealth = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [uploadedData, setUploadedData] = useState([]);
+  const [sensorHealthData, setSensorHealthData] = useState([]);
   const toggleCard = (id) => {
     setOpenCardId((prevId) => (prevId === id ? null : id));
   };
@@ -62,6 +65,44 @@ const SensorHealth = () => {
         setUploadedData(formatted);
       },
     });
+  };
+  useEffect(() => {
+    fetchSensorData();
+  }, []);
+
+  const fetchSensorData = async () => {
+    try {
+      const machinesRes = await axios.get(
+        "http://localhost:8000/api/v1/machines",
+      );
+
+      const machineData = await Promise.all(
+        machinesRes.data.map(async (machine, index) => {
+          const trendRes = await axios.get(
+            `http://localhost:8000/api/v1/sensors/trend?machine_id=${machine.machine_id}`,
+          );
+
+          const healthRes = await axios.get(
+            `http://localhost:8000/api/v1/health/components?machine_id=${machine.machine_id}`,
+          );
+
+          return {
+            id: index + 1,
+            machine: machine.machine_id,
+            area: index % 2 === 0 ? "Area 1" : "Area 2",
+            sensors: trendRes.data.data.map((sensor, i) => ({
+              name: sensor.sensor,
+              value: sensor.value,
+              health: healthRes.data.components[i]?.health || 0,
+            })),
+          };
+        }),
+      );
+
+      setSensorHealthData(machineData);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

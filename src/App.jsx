@@ -8,6 +8,7 @@ import Usermanagement from "./components/pages/Usermanagement";
 import Login from "./components/Login/Login";
 import './App.css'
 import HistoryPage from "./components/pages/History";
+import ViewCost from './components/pages/ViewCost';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         </Route> */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<Homepage />} />
+          <Route path="cost" element={<ViewCost />} />
           <Route path="history" element={<HistoryPage />} />
           <Route path="sensors" element={<Sensors />} />
           <Route path="config" element={<Configuration />} />

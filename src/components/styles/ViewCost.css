@@ -1,0 +1,123 @@
+.viewcost-container {
+  background: #eff0f7;
+  /* min-height: 100vh; */
+  font-family: "Segoe UI", sans-serif;
+  padding: 15px;
+}
+
+.viewcost-content {
+  padding-top: 25px;
+  padding-left: 10px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.breadcrumb span {
+  color: #5b5bf7;
+}
+
+.machine-equipment {
+  display: flex;
+  gap: 60px;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.label {
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.machine-equipment h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #111;
+}
+
+.status-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.status-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-right: 1px solid #ddd;
+  padding-right: 10px;
+}
+
+.icon {
+  font-size: 22px;
+}
+
+.red {
+  color: red;
+}
+
+.gray {
+  color: #9c9c9c;
+}
+
+.status-title {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.status-box h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.red-text {
+  color: red;
+}
+
+.green-text {
+  color: green;
+}
+
+.table-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.table-card {
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.table-header {
+  background: #f4f4f4;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f7f7f7;
+  text-align: left;
+  padding: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}

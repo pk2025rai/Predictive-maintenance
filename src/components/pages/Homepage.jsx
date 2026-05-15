@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { getMachines, getAlerts } from "../data/api";
 import "../styles/Home.css";
 import { FaClock, FaTools } from "react-icons/fa";
 import { MdBuild, MdAccessTime } from "react-icons/md";
-// import machines from "../data/data";
+import settings from "../assets/settings.png";
 const Home = () => {
   const [selectedArea, setSelectedArea] = useState("All");
   const [startDate, setStartDate] = useState("");
@@ -35,13 +36,32 @@ const Home = () => {
     try {
       const res = await getMachines();
 
-      // Convert backend data → match your UI format
-      const formatted = res.data.map((m, index) => ({
-        id: index + 1,
-        area: index % 2 === 0 ? "Area 1" : "Area 2", // temporary (since backend doesn't send area)
-        lastFailure: new Date().toISOString(), // placeholder
-        ...m,
-      }));
+      const formatted = await Promise.all(
+        res.data.map(async (m, index) => {
+          try {
+            const configRes = await axios.get(
+              `http://localhost:8000/api/v1/config/${m.machine_id}`,
+            );
+
+            console.log(configRes.data);
+
+            return {
+              id: index + 1,
+              area: index % 2 === 0 ? "Area 1" : "Area 2",
+              ...m,
+              ...configRes.data,
+            };
+          } catch (err) {
+            console.error("CONFIG ERROR", err);
+
+            return {
+              id: index + 1,
+              area: index % 2 === 0 ? "Area 1" : "Area 2",
+              ...m,
+            };
+          }
+        }),
+      );
 
       setMachines(formatted);
     } catch (err) {
@@ -75,63 +95,91 @@ const Home = () => {
       <div className="machine-grid">
         {filteredMachines.map((m) => (
           <div className="machine-card" key={m.id}>
-            <div className="machine-header">{m.machine_name}</div>
-
-            <div className="machine-detail">
-              <span>
-                <FaClock /> Last Failure
-              </span>
-              <span className="highlight">
-                {new Date(m.lastFailure).toLocaleString("en-GB", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </span>
+            <div className="machine-header">
+              <img
+                src={settings}
+                alt="machine"
+                className="machine-header-icon"
+              />
+              <span>{m.machine_id.toUpperCase()}</span>
             </div>
 
-            <div className="machine-detail">
-              <span>
-                <FaTools /> Health Score
-              </span>
-              <span className="highlight">{m.health_score}%</span>
-            </div>
+            <div className="card-content">
+              {/* LAST FAILURE */}
+              <div className="machine-detail">
+                <div className="detail-left">
+                  <FaClock className="icon red-icon" />
 
-            <div className="machine-detail">
-              <span>
-                <MdBuild /> Status
-              </span>
-              <span className={m.status === "Healthy" ? "green" : "orange"}>
-                {m.status}
-              </span>
-            </div>
+                  <div className="detail-text">
+                    <div className="detail-label">Last Failure</div>
 
-            <div className="machine-detail">
-              <span>
-                <MdAccessTime /> Predicted Failure Time
-              </span>
-              <span>
-                {m.health_score > 80
-                  ? "Low Risk"
-                  : m.health_score > 60
-                    ? "Medium Risk"
-                    : "High Risk"}
-              </span>
-            </div>
-            <div className="machine-detail">
-              <span>
-                <MdAccessTime /> Alert
-              </span>
-              <span
-                className={
-                  getAlertForMachine(m.machine_id) !== "NA" ? "alert" : ""
-                }
-              >
-                {getAlertForMachine(m.machine_id)}
-              </span>
+                    <div className="detail-value red-text">
+                      {m.last_failure || "N/A"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* LAST MAINTENANCE */}
+              <div className="machine-detail">
+                <div className="detail-left">
+                  <FaTools className="icon gray-icon" />
+
+                  <div className="detail-text">
+                    <div className="detail-label">Last Maintenance</div>
+
+                    <div className="detail-value black-text">
+                      {m.last_maintenance || "N/A"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* NEXT MAINTENANCE */}
+              <div className="machine-detail">
+                <div className="detail-left">
+                  <MdBuild className="icon gray-icon" />
+
+                  <div className="detail-text">
+                    <div className="detail-label">Next Maintenance</div>
+
+                    <div className="detail-value green-text">
+                      {m.next_maintenance || "N/A"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* PREDICTED FAILURE */}
+              <div className="machine-detail">
+                <div className="detail-left">
+                  <MdAccessTime className="icon gray-icon" />
+
+                  <div className="detail-text">
+                    <div className="detail-label">Predicted Failure Time</div>
+
+                    <div className="detail-value">
+                      <span className="black-text">
+                        {m.predicted_failure || "N/A"}
+                      </span>{" "}
+                      <span className="red-text"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* EQUIPMENT */}
+              <div className="equipment-row">
+                <div>
+                  <div className="equipment-label">Equipment -</div>
+
+                  <div className="equipment-name">Equipment Name</div>
+                </div>
+
+                <a href="/dashboard/cost" className="view-cost">
+                  View cost
+                </a>
+              </div>
             </div>
           </div>
         ))}

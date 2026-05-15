@@ -55,6 +55,8 @@ useEffect(() => {
         return "Configuration";
       case "/dashboard/users":
         return "User Management";
+      case "/dashboard/cost":
+        return "Cost Equipment";
       default:
         return "";
     }
@@ -81,6 +83,16 @@ useEffect(() => {
           >
             <img src={home} className="nav-icon" alt="home" />
             <span>Home</span>
+          </NavLink>
+          <NavLink
+            to="/dashboard/cost"
+            end
+            className={({ isActive }) =>
+              `nav-button ${isActive ? "active" : ""}`
+            }
+          >
+            <img src={home} className="nav-icon" alt="home" />
+            <span>Dashboard</span>
           </NavLink>
 
           <NavLink
@@ -158,6 +170,15 @@ useEffect(() => {
                   }}
                 >
                   <FaHome /> <span>Home</span>
+                </button>
+                <button
+                  className="nav-button"
+                  onClick={() => {
+                    navigate("/cost");
+                    setHamburgerMenuOpen(false);
+                  }}
+                >
+                  <FaHome /> <span>Dashboard</span>
                 </button>
                 <button
                   className="nav-button"
