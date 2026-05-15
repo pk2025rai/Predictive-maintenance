@@ -73,17 +73,17 @@ const SensorHealth = () => {
   const fetchSensorData = async () => {
     try {
       const machinesRes = await axios.get(
-        "http://localhost:8000/api/v1/machines",
+        "https://pdm-be.onrender.com/api/v1/machines",
       );
 
       const machineData = await Promise.all(
         machinesRes.data.map(async (machine, index) => {
           const trendRes = await axios.get(
-            `http://localhost:8000/api/v1/sensors/trend?machine_id=${machine.machine_id}`,
+            `https://pdm-be.onrender.com/api/v1/sensors/trend?machine_id=${machine.machine_id}`,
           );
 
           const healthRes = await axios.get(
-            `http://localhost:8000/api/v1/health/components?machine_id=${machine.machine_id}`,
+            `https://pdm-be.onrender.com/api/v1/health/components?machine_id=${machine.machine_id}`,
           );
 
           return {

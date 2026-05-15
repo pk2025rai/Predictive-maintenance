@@ -32,16 +32,16 @@ const ConfigurationPage = () => {
   };
   const updatedConfig = async (machine) => {
     try {
-      await axios.post("http://localhost:8000/api/v1/config/last-maintenance", {
+      await axios.post("https://pdm-be.onrender.com/api/v1/config/last-maintenance", {
         machine_id: machine,
         date: lastDate ? lastDate.toLocaleDateString() : "",
       });
-      await axios.post("http://localhost:8000/api/v1/config/next-maintenance", {
+      await axios.post("https://pdm-be.onrender.com/api/v1/config/next-maintenance", {
         machine_id: machine,
         date: nextDate ? nextDate.toLocaleDateString() : "",
       });
       await axios.post(
-        "http://localhost:8000/api/v1/config/predicted-failure",
+        "https://pdm-be.onrender.com/api/v1/config/predicted-failure",
         {
           machine_id: machine,
           date: nextDate ? nextDate.toLocaleDateString() : "",

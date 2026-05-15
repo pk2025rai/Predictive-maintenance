@@ -40,7 +40,7 @@ const Home = () => {
         res.data.map(async (m, index) => {
           try {
             const configRes = await axios.get(
-              `http://localhost:8000/api/v1/config/${m.machine_id}`,
+              `https://pdm-be.onrender.com/api/v1/config/${m.machine_id}`,
             );
 
             console.log(configRes.data);

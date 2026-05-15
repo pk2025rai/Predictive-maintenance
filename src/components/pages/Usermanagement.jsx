@@ -44,7 +44,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/users")
+      .get("https://pdm-be.onrender.com/api/v1/users")
       .then((response) => {
         setUsers(response.data);
       })
