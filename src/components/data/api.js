@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE = "https://pdm-be.onrender.com/api/v1";
-
+const API_BASE = "http://localhost:8000/api/v1";
+const API_BASE_URL = "";
 
 export const getMachines = () => axios.get(`${API_BASE}/machines`);
 

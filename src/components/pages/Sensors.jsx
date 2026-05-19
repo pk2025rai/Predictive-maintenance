@@ -10,13 +10,14 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  LabelList,
 } from "recharts";
 import "../styles/Sensor.css";
 // import sensorHealthData from "../data/data";
 import Papa from "papaparse";
 import axios from "axios";
 import { useEffect } from "react";
-
+const API_BASE_URL = "http://localhost:8000";
 const SensorHealth = () => {
   const [openCardId, setOpenCardId] = useState(null);
   const [selectedArea, setSelectedArea] = useState("All Areas");
@@ -72,18 +73,16 @@ const SensorHealth = () => {
 
   const fetchSensorData = async () => {
     try {
-      const machinesRes = await axios.get(
-        "https://pdm-be.onrender.com/api/v1/machines",
-      );
+      const machinesRes = await axios.get(`${API_BASE_URL}/api/v1/machines`);
 
       const machineData = await Promise.all(
         machinesRes.data.map(async (machine, index) => {
           const trendRes = await axios.get(
-            `https://pdm-be.onrender.com/api/v1/sensors/trend?machine_id=${machine.machine_id}`,
+            `${API_BASE_URL}/api/v1/sensors/trend?machine_id=${machine.machine_id}`,
           );
 
           const healthRes = await axios.get(
-            `https://pdm-be.onrender.com/api/v1/health/components?machine_id=${machine.machine_id}`,
+            `${API_BASE_URL}/api/v1/health/components?machine_id=${machine.machine_id}`,
           );
 
           return {
@@ -106,66 +105,96 @@ const SensorHealth = () => {
   };
 
   return (
-    <div className="sensor-health-wrapper" style={{ padding: "20px" }}>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+    <div
+      className="sensor-health-wrapper"
+      style={{
+        padding: "8px",
+        background: "#eff0f7",
+        minHeight: "100vh",
+        fontFamily: "Segoe UI, sans-serif",
+      }}
+    >
+      <div className="sensor-breadcrumb">
+        Menu / <span>Sensor Health</span>
+      </div>
+
       {/* Filter Controls */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "24px",
-          flexWrap: "wrap",
-        }}
-      >
-        {/* Start Date */}
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          placeholder="dd-mm-yyyy"
-          style={{
-            padding: "8px 10px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            minWidth: "150px",
-            fontSize: "14px",
-            height: "38px",
-          }}
-        />
+      {/* FILTER BAR */}
 
-        {/* End Date */}
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          placeholder="dd-mm-yyyy"
-          style={{
-            padding: "8px 10px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            minWidth: "150px",
-            fontSize: "14px",
-            height: "38px",
-          }}
-        />
+      <div className="sensor-filter-bar">
+        {/* START DATE */}
 
-        {/* Area Selector */}
-        <select
-          value={selectedArea}
-          onChange={(e) => setSelectedArea(e.target.value)}
-          style={{
-            padding: "8px 10px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            minWidth: "150px",
-            fontSize: "14px",
-            height: "38px",
-          }}
-        >
-          <option>All Areas</option>
-          <option>Area 1</option>
-          <option>Area 2</option>
-        </select>
+        <div className="filter-input-wrapper">
+          <input
+            type="text"
+            placeholder="Start Date"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => {
+              if (!e.target.value) e.target.type = "text";
+            }}
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="sensor-filter-input"
+          />
+
+          <span className="filter-arrow">⌄</span>
+        </div>
+
+        {/* END DATE */}
+
+        <div className="filter-input-wrapper">
+          <input
+            type="text"
+            placeholder="End Date"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => {
+              if (!e.target.value) e.target.type = "text";
+            }}
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="sensor-filter-input"
+          />
+
+          <span className="filter-arrow">⌄</span>
+        </div>
+
+        {/* AREA */}
+
+        <div className="filter-input-wrapper">
+          <select
+            value={selectedArea}
+            onChange={(e) => setSelectedArea(e.target.value)}
+            className="sensor-filter-input"
+          >
+            <option>Select Area</option>
+            <option>Area 1</option>
+            <option>Area 2</option>
+          </select>
+
+          <span className="filter-arrow">⌄</span>
+        </div>
+
+        {/* DATE FILTERS */}
+
+        <div className="filter-input-wrapper">
+          <select className="sensor-filter-input">
+            <option>Date Filters</option>
+
+            <option>Today</option>
+
+            <option>Yesterday</option>
+
+            <option>This Week</option>
+
+            <option>Last Week</option>
+
+            <option>This Month</option>
+
+            <option>Last Month</option>
+          </select>
+
+          <span className="filter-arrow">⌄</span>
+        </div>
       </div>
 
       {/* Machine Cards */}
@@ -194,7 +223,7 @@ const SensorHealth = () => {
                 openCardId === machine.id ? "1px solid #eee" : "none",
             }}
           >
-            <span>⚙️ {machine.machine.toUpperCase()} </span>
+            <span>⚙️ MACHINE {machine.id}</span>
             <span>{openCardId === machine.id ? "▲" : "▼"}</span>
           </div>
 
@@ -211,7 +240,7 @@ const SensorHealth = () => {
                 <h4
                   style={{
                     color: "white",
-                    backgroundColor: "rgb(163, 137, 244)",
+                    backgroundColor: "rgb(114, 68, 249)",
                     padding: "4px 10px",
                     borderRadius: "4px",
                     width: "fit-content",
@@ -231,13 +260,14 @@ const SensorHealth = () => {
                       >
                         <stop
                           offset="5%"
-                          stopColor="#8884d8"
-                          stopOpacity={0.8}
+                          stopColor="#8979FF"
+                          stopOpacity={0.3}
                         />
+
                         <stop
                           offset="95%"
-                          stopColor="#8884d8"
-                          stopOpacity={0}
+                          stopColor="#8979FF"
+                          stopOpacity={0.05}
                         />
                       </linearGradient>
                     </defs>
@@ -259,10 +289,23 @@ const SensorHealth = () => {
                     <Area
                       type="monotone"
                       dataKey="value"
-                      stroke="#8884d8"
+                      stroke="#8979FF"
+                      strokeWidth={2}
                       fillOpacity={1}
                       fill={`url(#colorValue-${machine.id})`}
-                      name="Sensor Value"
+                      name="Sensors"
+                      dot={{
+                        r: 3,
+                        stroke: "#8979FF",
+                        strokeWidth: 1,
+                        fill: "#FFFFFF",
+                      }}
+                      activeDot={{
+                        r: 4,
+                        fill: "#8979FF",
+                        stroke: "#FFFFFF",
+                        strokeWidth: 2,
+                      }}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -273,7 +316,7 @@ const SensorHealth = () => {
                 <h4
                   style={{
                     color: "white",
-                    backgroundColor: "rgb(163, 137, 244)",
+                    backgroundColor: "rgb(114, 68, 249)",
                     padding: "4px 10px",
                     borderRadius: "4px",
                     width: "fit-content",
@@ -298,7 +341,20 @@ const SensorHealth = () => {
                     />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="health" fill="#a389f4" name="Health" />
+                    <Bar
+                      dataKey="health"
+                      fill="#8979FF"
+                      name="Health"
+                      barSize={80}
+                      radius={[0, 0, 0, 0]}
+                    >
+                      <LabelList
+                        dataKey="health"
+                        position="top"
+                        fontSize={13}
+                        fill="#666"
+                      />
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </div>

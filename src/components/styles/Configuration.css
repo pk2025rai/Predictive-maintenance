@@ -7,7 +7,7 @@
 
 /* Card */
 .machine-cards {
-  background: #f3f4f7;
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   margin-bottom: 15px;
@@ -36,7 +36,7 @@
 }
 
 .machine-label {
-  background: #4f5cff;
+  background: #1e2be4;
   color: #fff;
   padding: 6px 14px;
   border-radius: 8px;
@@ -59,7 +59,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #616ae8;
+  background: #5051F9;
   color: white;
   padding: 9px 14px;
   border-radius: 4px;

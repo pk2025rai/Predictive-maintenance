@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import settings from "../assets/settings.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const API_BASE_URL = "http://localhost:8000";
 const machines = [
   "MACHINE 1",
   "MACHINE 2",
@@ -32,16 +32,22 @@ const ConfigurationPage = () => {
   };
   const updatedConfig = async (machine) => {
     try {
-      await axios.post("https://pdm-be.onrender.com/api/v1/config/last-maintenance", {
-        machine_id: machine,
-        date: lastDate ? lastDate.toLocaleDateString() : "",
-      });
-      await axios.post("https://pdm-be.onrender.com/api/v1/config/next-maintenance", {
-        machine_id: machine,
-        date: nextDate ? nextDate.toLocaleDateString() : "",
-      });
       await axios.post(
-        "https://pdm-be.onrender.com/api/v1/config/predicted-failure",
+        `${API_BASE_URL}https://pdm-be.onrender.com/api/v1/config/last-maintenance`,
+        {
+          machine_id: machine,
+          date: lastDate ? lastDate.toLocaleDateString() : "",
+        },
+      );
+      await axios.post(
+        `${API_BASE_URL}https://pdm-be.onrender.com/api/v1/config/next-maintenance`,
+        {
+          machine_id: machine,
+          date: nextDate ? nextDate.toLocaleDateString() : "",
+        },
+      );
+      await axios.post(
+        `${API_BASE_URL}https://pdm-be.onrender.com/api/v1/config/predicted-failure`,
         {
           machine_id: machine,
           date: nextDate ? nextDate.toLocaleDateString() : "",
@@ -125,15 +131,8 @@ const ConfigurationPage = () => {
     <div className="configuration-page">
       <div className="config-header">
         <div className="breadcrumb">
-          {/* Menu / <span>Configuration</span> */}
+          Menu / <span>Configuration</span>
         </div>
-
-        <button
-          className="history-btn"
-          onClick={() => navigate("/dashboard/history")}
-        >
-          ⟲ Check History
-        </button>
       </div>
       {machines.map((machine, index) => (
         <div

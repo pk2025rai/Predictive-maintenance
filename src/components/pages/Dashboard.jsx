@@ -15,6 +15,7 @@ import adminlogo from "../assets/admin.png";
 import home from '../assets/home.png';
 import pulse from '../assets/pulse.png';
 import slider from '../assets/sliders.png';
+import olam from '../assets/olam.png';
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -142,9 +143,9 @@ useEffect(() => {
       <div className="main-content">
         <header className="app-header">
           <div className="sidebar-toggle-wrapper">
-            <button className="sidebar-toggle" onClick={toggleSidebar}>
+            {/* <button className="sidebar-toggle" onClick={toggleSidebar}>
               <div className="toggle-icon"></div>
-            </button>
+            </button> */}
             <div className="current-page-title">
               <h3>{currentPage}</h3>
             </div>
@@ -214,7 +215,7 @@ useEffect(() => {
           <h1>Predictive Maintenance</h1>
 
           <div className="app-client">
-            <img src={pre} alt="Client Logo" />
+            <img src={olam} alt="Client Logo" />
           </div>
           <div className="app-logo" ref={adminMenuRef}>
             <img

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import "../styles/UserManagement.css";
 import CreateUserModal from "./UserModal";
 import EditUserModal from "./EditModal";
-
+const API_BASE_URL = "http://localhost:8000";
 const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
@@ -44,7 +44,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     axios
-      .get("https://pdm-be.onrender.com/api/v1/users")
+      .get(`${API_BASE_URL}/api/v1/users`)
       .then((response) => {
         setUsers(response.data);
       })
@@ -83,6 +83,10 @@ const UserManagement = () => {
 
   return (
     <div className="user-management-container">
+      <div className="breadcrumb">
+        Menu / <span>User Management</span>
+      </div>
+
       <div className="top-bar">
         <input
           type="text"
@@ -125,12 +129,12 @@ const UserManagement = () => {
                 </td>
                 <td className="action-icons">
                   <FaEdit
-                    color="blue"
+                    color="blackgrey"
                     style={{ cursor: "pointer", marginRight: "10px" }}
                     onClick={() => handleEdit(user, index)}
                   />
                   <FaTrash
-                    color="red"
+                    color="grey"
                     style={{ cursor: "pointer" }}
                     onClick={() => handleDelete(index)}
                   />

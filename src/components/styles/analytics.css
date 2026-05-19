@@ -31,8 +31,8 @@
 
 .hamburger-hover-wrapper {
   position: absolute;
-  top: 40px;
-  left: 0px;
+  top: 20px;
+  left: 2px;
   z-index: 9999;
 }
 
@@ -47,7 +47,7 @@
 .hamburger-toggle .bar {
   width: 20px;
   height: 2px;
-  background-color: #2850e3;
+  background-color: #0c0c0c;
   margin: 4px 0;
 }
 
